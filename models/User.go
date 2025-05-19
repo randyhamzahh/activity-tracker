@@ -11,5 +11,6 @@ type User struct {
 	Phone     string    `json:"phone" binding:"required"`    // A pointer to a string, allowing for null values
 	Password  string    `json:"password" binding:"required"` // A pointer to a string, allowing for null values
 	CreatedAt time.Time `json:"created_at"`                  // Automatically managed by GORM for creation time
-	UpdatedAt time.Time `json:"updated_at"`                  // Automatically managed by GORM for update time
+	UpdatedAt time.Time `json:"updated_at"`
+	UserJid   string    `json:"user_jid"`
 }
