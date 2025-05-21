@@ -1,0 +1,1 @@
+TRUNCATE public.periods CASCADE;

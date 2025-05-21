@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: activity_tracker_host
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres1234
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - backend
+
+  bot:
+    build: .
+    container_name: whatsapp_bot
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres1234
+      DB_NAME: postgres
+    env_file:
+      - .env
+    networks:
+      - backend
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    command: sh -c "./activity-bot && exit"
+
+volumes:
+  pgdata:
+
+networks:
+  backend:
